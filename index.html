@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="http://cdn.bootcss.com/jquery/3.0.0/jquery.js"></script>
+    <link rel="stylesheet" href="./Css/default.css"/>
+    <link rel="stylesheet" href="./Css/css.css"/>
+</head>
+<body>
+    <div id="banner">
+        <ul>
+            <li><img src="./images/1.jpg" alt=""/></li>
+            <li><img src="./images/sliderIndex03.jpg" alt=""/></li>
+            <li><img src="./images/sliderIndex04.jpg" alt=""/></li>
+            <li><img src="./images/sliderIndex05.jpg" alt=""/></li>
+        </ul>
+        <p class="but_bar"><span class="active"></span><span></span><span></span><span></span></p>
+        <div class="prve but"></div>
+        <div class="next but"></div>
+    </div>
+</body>
+</html>
+<script>
+    var Banner=function () {
+
+            this.bannerDom=$("#banner");
+            this.banner_ul_li=$("#banner ul li");
+            this.banner_img=$("#banner ul li img");
+            this.banner_p_span=$("#banner p.but_bar span");
+            this.banner_left=$('#banner div.prve');
+            this.banner_right=$('#banner div.next');
+            this.index=null;
+            this.num=null;
+            this.len=this.banner_img.length;
+            this.comButton();
+            this.setInter();
+            this.go_by();
+            this.bann_left();
+            this.bann_right();
+            var self=this;
+    };
+        Banner.prototype={
+            comButton:function () {
+                self=this;
+                $("#banner ul li img").eq(0).fadeIn();
+                this.banner_p_span.click(function () {
+                    self.num=$(this).index();
+                    self.index=$(this).index();
+                    /*$("#banner ul li img").eq(self.index).fadeIn().parent().siblings().find('img').hide();*/
+                    $("#banner ul li img").eq(self.index).fadeIn().parent().siblings().find('img').hide();
+                    $(this).addClass('active').siblings().removeClass('active');
+                });
+            },
+            go_by:function () {
+                self=this;
+                this.bannerDom.hover(function () {
+                    clearInterval(self.banner_set);
+                },function () {
+                    self.setInter();
+                })
+            },
+            setInter:function () {
+                self=this;
+               /* this.num=1;*/
+                this.banner_set=setInterval(function () {
+                    self.num++;
+                    if(self.len==self.num){
+                        self.num=0;
+                    }
+                    $("#banner ul li img").eq(self.num).fadeIn().parent().siblings().find('img').hide();
+                    self.banner_p_span.eq(self.num).addClass('active').siblings().removeClass('active');
+                },3000);
+            },
+            bann_left:function () {
+                self=this;
+                this.banner_left.click(function () {
+                    self.num--;
+                    if(self.num < 0){
+                        self.num=self.len-1;
+                    }
+                    $("#banner ul li img").eq(self.num).fadeIn().parent().siblings().find('img').hide();
+                    self.banner_p_span.eq(self.num).addClass('active').siblings().removeClass('active');
+                })
+            },
+            bann_right:function () {
+                self=this;
+                this.banner_right.click(function () {
+                    self.num++;
+                    if((self.num) >= (self.len)){
+                        self.num=0;
+                    }
+                    $("#banner ul li img").eq(self.num).fadeIn().parent().siblings().find('img').hide();
+                    self.banner_p_span.eq(self.num).addClass('active').siblings().removeClass('active');
+                })
+            }
+        };
+    banner =new Banner();
+    /*var Banner=function () {
+            var self=this;
+            this.banner=$("#banner");
+            this.banner_img=$("#banner img");
+            this.banner_ul_li=$("#banner ul li");
+            this.num=0;
+            this.total=this.banner_img.length;
+            this.begin_click();
+            this.setint();
+
+    };
+        Banner.prototype={
+            setint:function () {
+                setInterval(this.autoplay(),1000);
+            }
+            banner_auto:function () {
+                self.banner_img.eq($(this).index()).fadeIn().siblings("#banner img").fadeOut();
+            },
+            begin_click:function () {
+                this.banner_img.eq(0).fadeIn();
+                var self=this;
+                this.banner_ul_li.click (function () {
+                    self.banner_img.eq($(this).index()).fadeIn().siblings("#banner img").fadeOut();
+                });
+                console.log(this.total);
+            },
+
+            autoplay:function () {
+                var self=this;
+                if(this.num==this.total){
+                    this.num==0;
+                }
+                self.banner_img.eq($(this).index()).fadeIn().siblings("#banner img").fadeOut();
+                this.num++;
+                console.log(this.num);
+
+
+            }
+    };
+    banner =new Banner();*/
+    
+</script>
